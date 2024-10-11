@@ -1,26 +1,15 @@
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
+import { DayOfWeek, TrashType } from "../types";
 
-export enum TrashType {
-  Organico = "Organico",
-  Plastica = "Plastica",
-  Lattine = "Lattine",
-  Carta = "Carta",
-  Vetro = "Vetro",
-  Indifferenziata = "Indifferenziata",
-  Niente = "Niente",
-}
-
-export type DayOfWeek = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
-
-const dayMap: Record<string, DayOfWeek> = {
-  lun: "mon",
-  mar: "tue",
-  mer: "wed",
-  gio: "thu",
-  ven: "fri",
-  sab: "sat",
-  dom: "sun",
+const trashColorMap: Record<TrashType, string> = {
+  [TrashType.Organico]: "#4caf50",
+  [TrashType.Plastica]: "#2196f3",
+  [TrashType.Lattine]: "#f44336",
+  [TrashType.Carta]: "#ff9800",
+  [TrashType.Vetro]: "#9c27b0",
+  [TrashType.Indifferenziata]: "#607d8b",
+  [TrashType.Niente]: "#000",
 };
 
 export const useCalendar = () => {
@@ -34,16 +23,15 @@ export const useCalendar = () => {
     sun: [TrashType.Niente],
   };
 
+  const getTrashColor = (trashType: TrashType) => trashColorMap[trashType];
+
   const getTodayCollection = () => {
-    const todayAbbrev = format(new Date(), "eee", { locale: it }).toLowerCase();
-    const todayFull = format(new Date(), "cccc", { locale: it });
-
-    const dayKey = dayMap[todayAbbrev];
-
+    const today = format(new Date(), "cccc", { locale: it });
+    const dayKey = format(new Date(), "eee").toLowerCase() as DayOfWeek;
     const collection = dayKey ? calendar[dayKey] : [];
 
-    return { todayFull, collection };
+    return { today, collection };
   };
 
-  return { calendar, getTodayCollection };
+  return { calendar, getTodayCollection, getTrashColor };
 };
