@@ -1,5 +1,5 @@
 // App.tsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCalendar } from "../../hooks/useCalendar";
 import { addDays, subDays } from "date-fns";
 import { TrashType } from "../../types";
@@ -32,18 +32,32 @@ export const App = () => {
     setCurrentDate((prevDate) => addDays(prevDate, 1));
   };
 
+  useEffect(() => {
+    const handleKeyPress = (e: { key: string }) => {
+      if (e.key === "ArrowLeft") {
+        goBack();
+      } else if (e.key === "ArrowRight") {
+        goForward();
+      }
+    };
+    window.addEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
+
   return (
     <div className="App" style={bgStyle}>
-      <header className="App-header">
+      <div className="content">
         <h1>Oggi è {today}:</h1>
         <h2>Si conferisce {toCollect}</h2>
-      </header>
-      <footer>
-        <div className="App-footer">
+      </div>
+      <div>
+        <div className="buttons">
           <Button onClick={goBack}>← Indietro</Button>
           <Button onClick={goForward}>Avanti →</Button>
         </div>
-      </footer>
+      </div>
     </div>
   );
 };
