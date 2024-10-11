@@ -16,6 +16,7 @@ body {
   flex: 1;
   text-align: center;
   height: 100vh;
+  position: relative;
 }
 
 .content {
@@ -31,7 +32,14 @@ body {
 .buttons {
   display: flex;
   justify-content: space-between;
+  width: 100%;
   margin: 0 auto;
+  position: absolute;
+  bottom: 50%;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 .capital {

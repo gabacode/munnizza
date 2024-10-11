@@ -5,6 +5,8 @@ import { addDays, subDays } from "date-fns";
 import { TrashType } from "../../types";
 import { Button } from "./partials/Button";
 
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+
 export const App = () => {
   const { getCollectionByDate, getTrashColor } = useCalendar();
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
@@ -52,10 +54,20 @@ export const App = () => {
         <h1>Oggi è {today}:</h1>
         <h2>Si conferisce {toCollect}</h2>
       </div>
-      <div>
-        <div className="buttons">
-          <Button onClick={goBack}>← Indietro</Button>
-          <Button onClick={goForward}>Avanti →</Button>
+      <div className="d-flex justify-content-center">
+        <div className="buttons container-fluid">
+          <FaChevronLeft
+            className="pointer"
+            size={32}
+            color="white"
+            onClick={goBack}
+          />
+          <FaChevronRight
+            className="pointer"
+            size={32}
+            color="white"
+            onClick={goForward}
+          />
         </div>
       </div>
     </div>
