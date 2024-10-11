@@ -3,12 +3,12 @@ import { it } from "date-fns/locale";
 import { DayOfWeek, TrashType } from "../types";
 
 const trashColorMap: Record<TrashType, string> = {
-  [TrashType.Organico]: "#4caf50",
-  [TrashType.Plastica]: "#2196f3",
-  [TrashType.Lattine]: "#f44336",
-  [TrashType.Carta]: "#ff9800",
-  [TrashType.Vetro]: "#9c27b0",
-  [TrashType.Indifferenziata]: "#607d8b",
+  [TrashType.Organico]: "#301616",
+  [TrashType.Plastica]: "#ffa409",
+  [TrashType.Lattine]: "#ffa409",
+  [TrashType.Carta]: "#002773",
+  [TrashType.Vetro]: "#00661e",
+  [TrashType.Indifferenziata]: "#1d2a35",
   [TrashType.Niente]: "#000",
 };
 
@@ -25,13 +25,14 @@ export const useCalendar = () => {
 
   const getTrashColor = (trashType: TrashType) => trashColorMap[trashType];
 
-  const getTodayCollection = () => {
-    const today = format(new Date(), "cccc", { locale: it });
-    const dayKey = format(new Date(), "eee").toLowerCase() as DayOfWeek;
+  const getCollectionByDate = (date: Date) => {
+    let today = format(date, "cccc", { locale: it });
+    today = today.charAt(0).toUpperCase() + today.slice(1);
+    const dayKey = format(date, "eee").toLowerCase() as DayOfWeek;
     const collection = dayKey ? calendar[dayKey] : [];
 
     return { today, collection };
   };
 
-  return { calendar, getTodayCollection, getTrashColor };
+  return { calendar, getCollectionByDate, getTrashColor };
 };
